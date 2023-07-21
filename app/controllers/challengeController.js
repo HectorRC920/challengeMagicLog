@@ -1,5 +1,5 @@
 const axios = require('axios');
-const fs = require('fs');
+const { writeFile } = require('fs/promises');
 
 const { generateSHA1Hash, createFinalString }= require('../services/challengeService');
 
@@ -15,10 +15,10 @@ const challengeController = async (req, res) => {
   
     const SHA1Hash = generateSHA1Hash(finalString);
   
-    fs.writeFileSync('output.txt', SHA1Hash)
+    await writeFile('output.txt', SHA1Hash)
     
     const itemCount = items.length;
-    return res.status(201).send('File has been created');
+    return res.status(201).send(`File has been created and age=32 is repeated ${itemCount} times`);
   } catch (error) {
     return res.status(500).send(error.message);
   }
